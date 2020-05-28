@@ -15,11 +15,18 @@ insert.post('/', async (req, res) => {
     } = req.body
 
     const sql1 = `Select Customer_Id FROM Customer ORDER BY Customer_Id DESC LIMIT 1`
-    let customer_id = await dbConnection.execute(sql1)
-    if (customer_id.length === 0) {
+    let [
+        [id]
+    ] = await dbConnection.execute(sql1)
+    let customer_id;
+    if (id.length === 0) {
         customer_id = 1
+        console.log("a")
     } else {
-        customer_id = Number(customer_id) + 1
+        console.log(id.Customer_Id)
+        customer_id = Number(id.Customer_Id) + 1
+        console.log("b")
+
     }
     const date = new Date();
     const dateinsert = `${date.getFullYear()}-${month[date.getMonth()]}-${date.getDate()}`
